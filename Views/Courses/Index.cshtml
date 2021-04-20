@@ -2,17 +2,15 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    ViewData["Title"] = "IndexCourses";
+    ViewData["Title"] = "Catalog";
 
     Layout = "_Layout";
 }
 
-<h1>Catalog</h1>
+<h1>Course Catalog</h1>
 
 @for (int i = 1; i <= 10; i++)
 {
-
-
     <div class="row">
         <div class="col-md-1">
             <img src="~/logo.png" width="50" />
@@ -21,18 +19,18 @@
             <h2>Title Course</h2>
             <author>Nome of author</author>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 rating">
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
             <i class="fas fa-star"></i>
         </div>
-        <div class="col-md-2">
-           EUR 10.99 <br /><s>EUR 12.99</s>
+        <div class="col-md-2 price">
+           EUR 9.99 <br /><s>EUR 12.99</s>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-2 ">
             <a class="btn btn-outline-primary" asp-action="Detail" asp-route-id="1">Details</a>
         </div>
     </div>
