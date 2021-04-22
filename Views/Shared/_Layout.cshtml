@@ -4,7 +4,9 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
 
-    
+    <link href="~/Style.css" rel="stylesheet" />
+
+    @*<link href="https://fonts.googleapis.com/css2?family=Original+Surfer&display=swap" rel="stylesheet">*@
     <environment exclude="Development">
         @* Fontawesome *@
         <script src="https://kit.fontawesome.com/078e46060f.js" crossorigin="anonymous"></script>
@@ -15,13 +17,12 @@
 
     <environment include="Development">
         @* Fontawesome *@
-        <link href="/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+        <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
 
         @* Bootstrap *@
         <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     </environment>
 
-    <link href="/Style.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -70,7 +71,7 @@
         @RenderBody()
     </div>
 
-    <footer>
+    <footer class="contact">
         <p>Contact us..</p>
     </footer>
 
