@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Courses.Models.Services.Application;
+using Courses.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,11 @@ namespace Courses.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            CourseService courseService = new CourseService();
+
+            List<CourseViewModel> courseViewModels = courseService.GetCourseService();
+
+            return View(courseViewModels);
         }
 
         public IActionResult Detail(string id)
