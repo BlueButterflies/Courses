@@ -1,7 +1,6 @@
 ﻿.rating {
     color: orange;
-    padding: 0 5px;
-    margin-top: 0 20px;
+    white-space: nowrap;
 }
 
 author {
@@ -12,6 +11,9 @@ author {
 .price s {
     font-size: small;
     color:peru;
+}
+.price{
+    padding:0 5px;
 }
 
 h1 {
@@ -32,4 +34,29 @@ h1 {
     margin-bottom: 2em;
     text-align:center;
     color:darkblue;
+}
+
+footer{
+    margin-top: 3em;
+    padding-top: 1em;
+    border-top: 1px solid darkblue;
+    padding-bottom: 2em;
+}
+
+.course-detail aside{
+    padding: 1px;
+    height: 100%;
+    width: 100%;
+}
+
+.course-detail .register-btn{
+    margin-top: 1em;
+}
+
+.course-duration i, .lession-duration i{
+    margin-right: 0.10em;
+}
+
+.course-detail .price{
+    font-size: 1.3em;
 }
