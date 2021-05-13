@@ -21,5 +21,7 @@ namespace Courses.Models.ViewModels
         public Money FullPrice { get; set; }
 
         public Money DiscountPrice { get; set; }
+        public string Description { get; internal set; }
+        public List<LessonViewModel> Lessions { get; internal set; }
     }
 }

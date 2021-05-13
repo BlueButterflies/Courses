@@ -10,18 +10,29 @@ namespace Courses.Controllers
 {
     public class CoursesController : Controller
     {
+        private readonly ICourseService CourseService;
+
+        public CoursesController(ICourseService courseService)
+        {
+            this.CourseService = courseService;
+        }        
+
         public IActionResult Index()
         {
-            CourseService courseService = new CourseService();
+            ViewBag.Title = "Catalog";
 
-            List<CourseViewModel> courseViewModels = courseService.GetCourseService();
+            List<CourseViewModel> courseViewModels = CourseService.GetCourses();
 
             return View(courseViewModels);
         }
 
-        public IActionResult Detail(string id)
+        public IActionResult Detail(int id)
         {
-            return View();
+            CourseDatailViewModel viewModel = CourseService.GetCourse(id);
+
+            ViewBag.Title = viewModel.Title;
+
+            return View(viewModel);
         }
     }
 }
