@@ -8,8 +8,8 @@ namespace Courses.Models.Services.Application
 {
     public interface ICourseService
     {
-        List<CourseViewModel> GetCourses();
+        Task<List<CourseViewModel>> GetCoursesAsync();
 
-        CourseDatailViewModel GetCourse(int id);
+        Task<CourseDatailViewModel> GetCourseAsync(int id);
     }
 }

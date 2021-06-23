@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 
 namespace Courses.Models.ViewModels
 {
@@ -8,6 +9,15 @@ namespace Courses.Models.ViewModels
 
         public TimeSpan Duration { get; set; }
 
-       //public TimeSpan TotalCourseDuration { get => TimeSpan.FromSeconds(Lessons?.Sum(l => l.Duration.TotalSeconds) ?? 0); }
+        public static LessonViewModel FromDataRow(DataRow lessonRow)
+        {
+            LessonViewModel lessonView = new LessonViewModel
+            {
+                Title = lessonRow["Title"].ToString(),
+                Duration = (TimeSpan)lessonRow["Duration"]
+            };
+
+            return lessonView;
+        }
     }
 }

@@ -1,0 +1,11 @@
+﻿
+INSERT INTO [dbo].[Courses]
+           ([Title]
+           ,[Descriptions]
+           ,[ImagePath]
+           ,[Author]
+           ,[Email]
+           ,[Rating]
+           ,[FullPrice ]  
+           ,[FullPrice_Currency] 
+     VALUES('C# Development', 'This course is ....','/wwwroot/logo.png', 'Micele Arbanp', 'jajaj@gmail.com', '4', '18','EUR', '14', 'EUR')

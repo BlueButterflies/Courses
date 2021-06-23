@@ -66,11 +66,11 @@
 </section>
 
 <section class="course-lessions">
-    <h2>Lessons @Model.Lessions.Count</h2>
+    <h2>Lessons @Model.Lessons.Count</h2>
 
     <hr />
 
-    @foreach (var lesson in Model.Lessions)
+    @foreach (var lesson in Model.Lessons)
     {
         <div class="row">
             <div class="col-md-9 d-flex align-items-center">
@@ -91,7 +91,7 @@
         </div>
 
         <div class="col-md-3 d-flex align-items-center">
-            <i class="far fa-clock"><time>@Model.TotalCourseDuration.ToString("m'm 's's'")</time></i>
+            <i class="far fa-clock"><time>@Model.TotalCourseDuration.ToString("h'h 'm'm 's's'")</time></i>
         </div>
     </div>
 </section>
