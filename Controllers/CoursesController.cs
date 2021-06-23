@@ -17,18 +17,18 @@ namespace Courses.Controllers
             this.CourseService = courseService;
         }        
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ViewBag.Title = "Catalog";
 
-            List<CourseViewModel> courseViewModels = CourseService.GetCourses();
+            List<CourseViewModel> courseViewModels = await CourseService.GetCoursesAsync();
 
             return View(courseViewModels);
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            CourseDatailViewModel viewModel = CourseService.GetCourse(id);
+            CourseDatailViewModel viewModel = await CourseService.GetCourseAsync(id);
 
             ViewBag.Title = viewModel.Title;
 

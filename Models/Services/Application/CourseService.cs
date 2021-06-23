@@ -9,7 +9,7 @@ namespace Courses.Models.Services.Application
 {
     public class CourseService : ICourseService
     {
-        public List<CourseViewModel> GetCourses()
+        public async Task<List<CourseViewModel>> GetCoursesAsync()
         {
             List<CourseViewModel> courseList = new List<CourseViewModel>();
 
@@ -35,7 +35,7 @@ namespace Courses.Models.Services.Application
             return courseList;
         }
 
-        public CourseDatailViewModel GetCourse(int id)
+        public async Task<CourseDatailViewModel> GetCourseAsync(int id)
         {
             Random random = new Random();
             decimal price = Convert.ToDecimal(random.NextDouble() * 10 + 10);
@@ -50,7 +50,7 @@ namespace Courses.Models.Services.Application
                 Rating = random.NextDouble() * 5.00,
                 ImgPath = "/logo.png",
                 Description = $"Description {id}",
-                Lessions = new List<LessonViewModel>()
+                Lessons = new List<LessonViewModel>()
             };
 
             for (int i = 1; i <= 5; i++)
@@ -61,7 +61,7 @@ namespace Courses.Models.Services.Application
                     Duration = TimeSpan.FromSeconds(random.Next(40, 90))
                 };
 
-                course.Lessions.Add(lession);
+                course.Lessons.Add(lession);
             }
 
             return course;
