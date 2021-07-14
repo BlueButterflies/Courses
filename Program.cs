@@ -18,6 +18,11 @@ namespace Courses
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                //.ConfigureLogging((contex, builder) =>
+                //{
+                //    builder.ClearProviders();
+                //    builder.AddConsole();
+                //})
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

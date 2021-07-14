@@ -10,25 +10,25 @@ namespace Courses.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly ICourseService CourseService;
+        private readonly ICachedCourseService EfCoreCourseService;
 
-        public CoursesController(ICourseService courseService)
+        public CoursesController(ICachedCourseService courseService)
         {
-            this.CourseService = courseService;
+            this.EfCoreCourseService = courseService;
         }        
 
         public async Task<IActionResult> Index()
         {
             ViewBag.Title = "Catalog";
 
-            List<CourseViewModel> courseViewModels = await CourseService.GetCoursesAsync();
+            List<CourseViewModel> courseViewModels = await EfCoreCourseService.GetCoursesAsync();
 
             return View(courseViewModels);
         }
 
         public async Task<IActionResult> Detail(int id)
         {
-            CourseDatailViewModel viewModel = await CourseService.GetCourseAsync(id);
+            CourseDetailViewModel viewModel = await EfCoreCourseService.GetCourseAsync(id);
 
             ViewBag.Title = viewModel.Title;
 

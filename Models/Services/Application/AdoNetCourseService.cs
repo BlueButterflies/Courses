@@ -1,4 +1,9 @@
-﻿using Courses.Models.ViewModels;
+﻿using Courses.Controllers;
+using Courses.Models.Exceptions;
+using Courses.Models.ViewModels;
+using Courses.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,13 +16,21 @@ namespace Courses.Models.Services.Application
     {
         private readonly IDatabaseAccessor Database;
 
-        public AdoNetCourseService(IDatabaseAccessor database)
+        public AdoNetCourseService(ILogger<AdoNetCourseService> logger,IDatabaseAccessor database, IOptionsMonitor<ConnectionStringOptions> options)
         {
+            Logger = logger;
             this.Database = database;
+            this.Options = options;
         }
 
-        public async Task<CourseDatailViewModel> GetCourseAsync(int id)
+        public ILogger<AdoNetCourseService> Logger { get; }
+
+        public IOptionsMonitor<ConnectionStringOptions> Options { get; }
+
+        public async Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
+            Logger.LogInformation("Course {id} requested", id);
+
             FormattableString selectFromDb = $@"Select [Id],[Title],[Description],[ImagePath],[Author],[Rating],[FullPrice],[FullPrice_Currency],[DiscountPrice],[DiscountPrice_Currency] From [dbo].[Courses] WHERE [Id]={id};SELECT [Id],[Title],[Descriptions],[Duration] FROM[dbo].[Lessons] WHERE [CourseId]={id}";
 
             DataSet dataSet = await Database.QueryAsync(selectFromDb);
@@ -27,11 +40,14 @@ namespace Courses.Models.Services.Application
 
             if (dataTableCourse.Rows.Count != 1)
             {
-                throw new InvalidOperationException($"Did not return exactly 1 row for Course {id}");
+                Logger.LogWarning("Course {id} requested", id);
+
+                throw new CourseNotFoundException(id);
             }
 
             var courseRow = dataTableCourse.Rows[0];
-            var detailsCourse = CourseDatailViewModel.FromDataRow(courseRow);
+
+            var detailsCourse = CourseDetailViewModel.FromDataRow(courseRow);
 
             //Lession Course
             DataTable dataTableLesson = dataSet.Tables[1];
@@ -39,10 +55,11 @@ namespace Courses.Models.Services.Application
             foreach (DataRow lessonRow in dataTableLesson.Rows)
             {
                 LessonViewModel lessonView = LessonViewModel.FromDataRow(lessonRow);
+             
                 detailsCourse.Lessons.Add(lessonView);
             }
 
-            return (CourseDatailViewModel)detailsCourse;
+            return (CourseDetailViewModel)detailsCourse;
         }
 
         public async Task<List<CourseViewModel>> GetCoursesAsync()
@@ -50,7 +67,9 @@ namespace Courses.Models.Services.Application
             FormattableString selectFromDb = $"Select [Id],[Title],[ImagePath],[Author],[Rating],[FullPrice],[FullPrice_Currency],[DiscountPrice],[DiscountPrice_Currency] From [dbo].[Courses]";
 
             DataSet dataSet = await Database.QueryAsync(selectFromDb);
+
             DataTable dataTable = dataSet.Tables[0];
+
             List<CourseViewModel> courseViews = new List<CourseViewModel>();
 
             foreach (DataRow dataRow in dataTable.Rows)

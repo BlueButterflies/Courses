@@ -1,4 +1,4 @@
-﻿using Courses.Models.ViewModels;
+﻿ using Courses.Models.ViewModels;
 using Courses.Models.Services.Application;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Courses.Models.Services.Application
     {
         public async Task<List<CourseViewModel>> GetCoursesAsync()
         {
-            List<CourseViewModel> courseList = new List<CourseViewModel>();
+            List<CourseViewModel> courseList =  new List<CourseViewModel>();
 
             Random random = new Random();
 
@@ -27,20 +27,21 @@ namespace Courses.Models.Services.Application
                     FullPrice = new Money(Currency.EUR, random.NextDouble() > 0.5 ? price : price - 1),
                     Author = "Name Last Name",
                     Rating = random.NextDouble() * 5.00,
-                    ImgPath = "/logo.png"
+                    ImgPath = "~/images/logo.png"
 
                 };
+
                 courseList.Add(course);
             }
             return courseList;
         }
 
-        public async Task<CourseDatailViewModel> GetCourseAsync(int id)
+        public async Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
             Random random = new Random();
             decimal price = Convert.ToDecimal(random.NextDouble() * 10 + 10);
 
-            CourseDatailViewModel course = new CourseDatailViewModel
+            CourseDetailViewModel course = new CourseDetailViewModel
             {
                 Id = id,
                 Title = $"Course {id}",
@@ -48,7 +49,7 @@ namespace Courses.Models.Services.Application
                 FullPrice = new Money(Currency.EUR, random.NextDouble() > 0.5 ? price : price - 1),
                 Author = "Name Last Name",
                 Rating = random.NextDouble() * 5.00,
-                ImgPath = "/logo.png",
+                ImgPath = "~/images/logo.png",
                 Description = $"Description {id}",
                 Lessons = new List<LessonViewModel>()
             };
