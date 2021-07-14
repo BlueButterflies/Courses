@@ -1,4 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Courses.Options;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,6 +12,13 @@ namespace Courses.Models.Services.Infrastructure
 {
     public class SqlDatabase : IDatabaseAccessor
     {
+        public SqlDatabase(IOptionsMonitor<ConnectionStringOptions> configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IOptionsMonitor<ConnectionStringOptions> Configuration { get; }
+
         public async Task<DataSet> QueryAsync(FormattableString formattableQuery)
         {
             var queryArgument = formattableQuery.GetArguments();
@@ -25,7 +35,9 @@ namespace Courses.Models.Services.Infrastructure
 
             string query = formattableQuery.ToString();
 
-            using (SqlConnection database = new SqlConnection("Data Source=DESKTOP-PO35QJG;Initial Catalog=Courses;Integrated Security=True"))
+            string connectionDb = Configuration.CurrentValue.DbConnect;
+
+            using (SqlConnection database = new SqlConnection(connectionDb))
             {
                 await database.OpenAsync();
 

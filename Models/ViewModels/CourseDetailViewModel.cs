@@ -1,4 +1,5 @@
-﻿using Courses.Models.Services.Application;
+﻿using Courses.Models.Entity;
+using Courses.Models.Services.Application;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Courses.Models.ViewModels
 {
-    public class CourseDatailViewModel : CourseViewModel
+    public class CourseDetailViewModel : CourseViewModel
     {
         public string Description { get; set; }
 
@@ -22,6 +23,7 @@ namespace Courses.Models.ViewModels
         {
             CourseViewModel courseView = new CourseViewModel
             {
+                Id = (int)dataRow["Id"],
                 Title = dataRow["Title"].ToString(),
                 Author = dataRow["Author"].ToString(),
                 Description = dataRow["Description"].ToString(),
@@ -30,18 +32,23 @@ namespace Courses.Models.ViewModels
                 FullPrice = new Money
                 (
                     Enum.Parse<Currency>(dataRow["FullPrice_Currency"].ToString()),
-                    Convert.ToDecimal(dataRow["FullPrice"])
+                    Convert.ToDecimal(dataRow["FullPrice_Amount"])
                 ),
                 DiscountPrice = new Money
                 (
                     Enum.Parse<Currency>(dataRow["DiscountPrice_Currency"].ToString()),
-                    Convert.ToDecimal(dataRow["DiscountPrice"])
+                    Convert.ToDecimal(dataRow["DiscountPrice_Amount"])
                 ),
-                Id = (int)dataRow["Id"],
+
                 Lessons = new List<LessonViewModel>()
             };
 
             return courseView;
+        }
+
+        internal static object FromEntity(Course course)
+        {
+            throw new NotImplementedException();
         }
     }
 }

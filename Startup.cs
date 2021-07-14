@@ -1,10 +1,16 @@
+using Courses.Controllers;
 using Courses.Models.Services.Application;
 using Courses.Models.Services.Infrastructure;
+using Courses.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -26,9 +32,28 @@ namespace Courses
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddTransient<ICourseService, AdoNetCourseService>();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+          //services.AddTransient<ICourseService, AdoNetCourseService>();
+
+           services.AddTransient<ICourseService, EfCoreCourseService>();
+
             services.AddTransient<IDatabaseAccessor, SqlDatabase>();
+
+            services.AddTransient<ICachedCourseService, MemoryCacheService>();
+            //Connected database
+            services.AddDbContextPool<CoursesDbContext>(
+                builder =>
+                {
+                    string connectionDb = Configuration.GetSection("ConnectionString").GetValue<string>("DbConnect");
+
+                    builder.UseSqlServer(connectionDb);
+
+                });
+
+            //Options
+            services.Configure<ConnectionStringOptions>(Configuration.GetSection("ConnectionString"));
+            services.Configure<CoursesOptions>(Configuration.GetSection("Courses"));
+            services.Configure<MemoryCacheOptions>(Configuration.GetSection("MemoryCache"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

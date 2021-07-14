@@ -23,29 +23,29 @@ namespace Courses.Models.ViewModels
 
         public Money DiscountPrice { get; set; }
 
-        public string Description { get; internal set; }
+        public string Description { get; set; }
 
-        public List<LessonViewModel> Lessons { get; internal set; }
+        public List<LessonViewModel> Lessons { get; set; }
 
         public static CourseViewModel FromDataRow(DataRow dataRow)
         {
             CourseViewModel courseView = new CourseViewModel
             {
+                Id = (int)dataRow["Id"],
                 Title = dataRow["Title"].ToString(),
-                Author = dataRow["Author"].ToString(),
                 ImgPath = dataRow["ImagePath"].ToString(),
+                Author = dataRow["Author"].ToString(),
                 Rating = Convert.ToDouble(dataRow["Rating"]),
                 FullPrice = new Money
                 (
                     Enum.Parse<Currency>(dataRow["FullPrice_Currency"].ToString()),
-                    Convert.ToDecimal(dataRow["FullPrice"])
+                    Convert.ToDecimal(dataRow["FullPrice_Amount"])
                 ),
                 DiscountPrice = new Money
                 (
                     Enum.Parse<Currency>(dataRow["DiscountPrice_Currency"].ToString()),
-                    Convert.ToDecimal(dataRow["DiscountPrice"])
-                ),
-                Id = (int)dataRow["Id"]
+                    Convert.ToDecimal(dataRow["DiscountPrice_Amount"])
+                )
             };
 
             return courseView;
